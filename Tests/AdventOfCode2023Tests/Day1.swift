@@ -4,7 +4,7 @@ import Foundation
 final class Day1: XCTestCase {
     
     func testDay1Part1() throws {
-        let sum = try Self.loadInputFile(named: "Day1")
+        let sum = try Utilities.loadInputFile(named: "Day1")
             .map { Self.extractEncodedIntegerViaFirstAndLastNumeralDigits(from: $0) ?? 0 }
             .reduce(0, +)
         print(sum)
@@ -16,7 +16,7 @@ final class Day1: XCTestCase {
     }
     
     func testDay1Part2() throws {
-        let sum = try Self.loadInputFile(named: "Day1")
+        let sum = try Utilities.loadInputFile(named: "Day1")
             .map { Self.extractEncodedIntegerViaBothSpelledOutDigitsAndNumeralDigits(from: $0) ?? 0 }
             .reduce(0, +)
         print(sum)
@@ -44,19 +44,7 @@ final class Day1: XCTestCase {
             }
         }
         let twoDigitInteger = Int("\(extractedDigits.first!)\(extractedDigits.last!)")
-        print("\(extractedDigits.joined(separator: ".")) from \(input) -> \(twoDigitInteger!)")
         return twoDigitInteger
-    }
-    
-    enum InputFileLoadingError: Error {
-        case failedToGenerateStringFromFileData
-    }
-    static func loadInputFile(named name: String) throws -> [String] {
-        let url = URL(fileURLWithPath: #file).deletingLastPathComponent().appending(component: "Input/\(name).txt")
-        let data = try Data(contentsOf: url)
-        guard let contents = String(data: data, encoding: .utf8) else { throw InputFileLoadingError.failedToGenerateStringFromFileData }
-        let lines = contents.split(whereSeparator: \.isNewline)
-        return lines.map { String($0) }
     }
     
     struct SpelledOutDigit {
